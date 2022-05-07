@@ -1,12 +1,34 @@
 <template>
-  <div class="container">
-    <div id="calculator" style="width: 600px; height: 400px"></div>
+  <div>
+    <ul v-for="post in posts" :key="post.id">
+      <li>{{ post.title }}</li>
+      <p>{{ post.body }}</p>
+    </ul>
   </div>
 </template>
 
 <script>
 export default {
-  setup() {},
+  data() {
+    return {
+      posts: [],
+    };
+  },
+
+  methods: {
+    async getData() {
+      try {
+        let response = await fetch("http://jsonplaceholder.typicode.com/posts");
+        this.posts = await response.json();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+
+  created() {
+    this.getData();
+  },
 };
 </script>
 
